@@ -55,9 +55,7 @@ export default function Index() {
   );
 }
 
-Index.options = {
-  headerShown: false,
-};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -88,7 +86,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 224,
     height: 120, 
-    resizeMode: 'contain', 
+    resizeMode: 'contain',
+    marginTop: 60,
   },
   input: {
     height: 52,
