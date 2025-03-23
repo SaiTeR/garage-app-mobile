@@ -7,10 +7,10 @@ export default function Navigation() {
           <Stack.Screen name="index" options={{ title: 'Авторизация', headerShown: false }} />
           <Stack.Screen name="register" options={{ title: 'Регистрация', headerShown: false}} />
 
-          <Stack.Screen name="form" options={{ title: 'Запись на техническое обслуживание', headerShown: false }} />
-          <Stack.Screen name="profile" options={{ title: 'Личный профиль', headerShown: false }} />
-          <Stack.Screen name="car" options={{ title: 'Автомобиль', headerShown: false }} />
-          <Stack.Screen name="chat" options={{ title: 'Чат', headerShown: false }} />
+          <Stack.Screen name="form" options={{ title: 'Запись на техническое обслуживание', headerShown: false, gestureEnabled: false}} />
+          <Stack.Screen name="profile" options={{ title: 'Личный профиль', headerShown: false, gestureEnabled: false}} />
+          {/*<Stack.Screen name="car" options={{ title: 'Автомобиль', headerShown: false }} />*/}
+          {/*<Stack.Screen name="chat" options={{ title: 'Чат', headerShown: false }} />*/}
       </Stack>
   );
 }

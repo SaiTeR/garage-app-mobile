@@ -1,13 +1,70 @@
-import { Text, View, StyleSheet, Button, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform, ToastAndroid, Alert
+} from 'react-native';
+
+
 import { Link, useRouter } from 'expo-router';
+import UserDataManager from "@/data_managers/UserDataManager";
+import {UserViewModel} from "@/view_models/UserViewModel";
+
+import React, { useState, useEffect } from 'react';
 
 export default function Index() {
   const router = useRouter();
+  const userVM = new UserViewModel();
+  // Состояния для хранения данных email и пароля
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    /* Логика авторизации */
+  // Загружаем данные пользователя при монтировании компонента
+  // useEffect(() => {
+  //   // UserDataManager.clearUserData()
+  //
+  //
+  //   const checkUserData = async () => {
+  //     const data = await UserViewModel.getUserModel();
+  //
+  //     if (data != new UserViewModel()) {
+  //       router.push('/form');
+  //     }
+  //   };
+  //   checkUserData();
+  // }, []);
 
-    router.push('/form');
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Заполните все поля', ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Заполните все поля');
+      }
+
+      return;
+    }
+
+    const wasError = await UserViewModel.getUserDataFromAPI(email, password);
+
+    if (wasError) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Ошибка авторизации', ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Ошибка', 'Ошибка авторизации');
+      }
+
+      return;
+    } else {
+      router.push('/form');
+    }
   };
   
   
@@ -26,14 +83,19 @@ export default function Index() {
           <Text style={styles.text}>E-mail</Text>
           <TextInput
             style={styles.input}
+            value={email} // Значение из состояния email
+            onChangeText={(text) => setEmail(text)} // Обновляем состояние при вводе
+            keyboardType="email-address"
           />
         </View>
 
         <View style={styles.inputContainer}> 
           <Text style={styles.text}>Пароль</Text>
           <TextInput
-            style={styles.input}
-            secureTextEntry={true}
+              style={styles.input}
+              secureTextEntry={true}
+              value={password} // Значение из состояния password
+              onChangeText={(text) => setPassword(text)} // Обновляем состояние при вводе
           />
         </View>
 
